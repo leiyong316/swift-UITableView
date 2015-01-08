@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("ViewController") as UITableViewCell
-        cell.textLabel.text = arr[indexPath.row] as NSString;
+        cell.textLabel?.text = arr[indexPath.row] as NSString;
         return cell;
     }
     
