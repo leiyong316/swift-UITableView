@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.arr = NSMutableArray();
-        for (var i=1; i<=50; i++){
-            arr[i-1] = "data \(i)"
+        for i in 0..<10{
+            arr[i] = "data \(i+1)"
         }
     }
 
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         var row = self.arr.count
         var indexPath = NSIndexPath(forRow:row,inSection:0)
         self.arr.addObject(String(format: "data %d", row+1))
-        self.tableview.insertRowsAtIndexPaths(NSArray(object: indexPath), withRowAnimation: UITableViewRowAnimation.Left)
+        self.tableview.insertRowsAtIndexPaths(NSArray(object: indexPath) as [AnyObject], withRowAnimation: UITableViewRowAnimation.Left)
         self.tableview.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
     }
     
@@ -49,14 +49,14 @@ class ViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("ViewController") as UITableViewCell
-        cell.textLabel?.text = arr[indexPath.row] as NSString;
+        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("ViewController") as! UITableViewCell
+        cell.textLabel?.text = arr[indexPath.row] as? String;
         return cell;
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         tableView.deselectRowAtIndexPath(indexPath, animated: true);
-        let alert = UIAlertController(title: "提示", message:NSString(format: "%@ 被点击", arr[indexPath.row] as NSString), preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "提示", message:String(format: "%@ 被点击", arr[indexPath.row] as! String), preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
         if editingStyle == UITableViewCellEditingStyle.Delete{
             arr.removeObjectAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths(NSArray(object: indexPath), withRowAnimation: UITableViewRowAnimation.Fade)
+            tableView.deleteRowsAtIndexPaths(NSArray(object: indexPath) as [AnyObject], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
     
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath){
-        var destStr = arr[destinationIndexPath.row] as NSString;
+        var destStr = arr[destinationIndexPath.row] as! String;
         arr.removeObjectAtIndex(destinationIndexPath.row);
         arr.insertObject(destStr, atIndex: sourceIndexPath.row);
     }
